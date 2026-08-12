@@ -1,0 +1,85 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "source": [
+        "graph = {\n",
+        "    'A': [('B', 1), ('C', 4)],\n",
+        "    'B': [('D', 2), ('E', 2)],\n",
+        "    'C': [('F', 1), ('G', 3)],\n",
+        "    'D': [],\n",
+        "    'E': [('H', 2)],\n",
+        "    'F': [('H', 8)],\n",
+        "    'G': [],\n",
+        "    'H': []\n",
+        "}\n",
+        "\n",
+        "heuristic = {\n",
+        "    'A': 8,\n",
+        "    'B': 6,\n",
+        "    'C': 2,\n",
+        "    'D': 7,\n",
+        "    'E': 5,\n",
+        "    'F': 1,\n",
+        "    'G': 4,\n",
+        "    'H': 6   # Increased heuristic to create a local optimum\n",
+        "}\n",
+        "\n",
+        "def hill_climbing(start, goal):\n",
+        "    current = start\n",
+        "    path = [current]\n",
+        "\n",
+        "    while current != goal:\n",
+        "        neighbours = graph[current]\n",
+        "\n",
+        "        if not neighbours:\n",
+        "            break\n",
+        "\n",
+        "        best = min(neighbours, key=lambda x: heuristic[x[0]])\n",
+        "\n",
+        "        if heuristic[best[0]] >= heuristic[current]:\n",
+        "            print(\"Hill Climbing Stuck!\")\n",
+        "            break\n",
+        "\n",
+        "        current = best[0]\n",
+        "        path.append(current)\n",
+        "\n",
+        "    print(\"Hill Climbing Path:\", path)\n",
+        "\n",
+        "hill_climbing('A', 'H')"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "2nIAUpdZqLqj",
+        "outputId": "24142945-184e-4454-d642-1d97e9fcd009"
+      },
+      "execution_count": 4,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Hill Climbing Stuck!\n",
+            "Hill Climbing Path: ['A', 'C', 'F']\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
